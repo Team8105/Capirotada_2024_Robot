@@ -5,9 +5,14 @@
 package frc.robot;
 
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.ShootSmallIntake;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.SmallIntakeSubsystem;
 
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -26,16 +31,22 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  DriveTrainSubsystem m_robotDrive;
+  IntakeSubsystem m_intakeSubsystem;
+  SmallIntakeSubsystem m_smallIntakeSubsystem;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
-  DriveTrainSubsystem m_robotDrive = new DriveTrainSubsystem();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    m_robotDrive = new DriveTrainSubsystem();
+    m_intakeSubsystem = new IntakeSubsystem();
+    m_smallIntakeSubsystem = new SmallIntakeSubsystem();
+    NamedCommands.registerCommand("useIntake", new IntakeCommand(m_intakeSubsystem, true));
+    NamedCommands.registerCommand("shootSmallIntake", new ShootSmallIntake(m_smallIntakeSubsystem, true));
     // Configure the trigger bindings
     configureBindings();
   }
@@ -55,6 +66,7 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     m_robotDrive.setDefaultCommand(new RunCommand(
         () -> m_robotDrive.arcadeDrive(m_driverController.getRawAxis(3) - m_driverController.getRawAxis(2),
@@ -64,7 +76,8 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is
     // pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    m_driverController.b().whileTrue(new IntakeCommand(m_intakeSubsystem, true));
+    m_driverController.a().whileTrue(new ShootSmallIntake(m_smallIntakeSubsystem, true));
   }
 
   /**
