@@ -76,6 +76,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
   // La clase "Field2d" nos muestra el robot simulado en una interfaz
   private final Field2d m_fieldSim;
   double currentAngle = 0;
+  int dev = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
+  SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(dev, "Yaw"));
 
   /** Creates a new DriveTrainSubsystem. */
   public DriveTrainSubsystem() {
@@ -174,8 +176,6 @@ public class DriveTrainSubsystem extends SubsystemBase {
     m_leftEncoderSim.setRate(m_drivetrainSim.getLeftVelocityMetersPerSecond());
     m_rightEncoderSim.setDistance(m_drivetrainSim.getRightPositionMeters());
     m_rightEncoderSim.setRate(m_drivetrainSim.getRightVelocityMetersPerSecond());
-    int dev = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
-    SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(dev, "Yaw"));
     angle.set(-m_drivetrainSim.getHeading().getDegrees());
   }
 

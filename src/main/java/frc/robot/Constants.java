@@ -105,7 +105,7 @@ public final class Constants {
     public static final int KConveyorLeftMotor = 6;
     public static final int KConveyorRightMotor = 7;
 
-    public static final double KConveyorMotorSpeed = 1.00;
+    public static final double KConveyorMotorSpeed = 0.45;
   }
 
   public static final class IntakeConstants {

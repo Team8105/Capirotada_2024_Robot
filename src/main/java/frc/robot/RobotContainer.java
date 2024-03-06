@@ -5,11 +5,18 @@
 package frc.robot;
 
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.ActivateShooter;
+import frc.robot.commands.ClimberToogle;
+import frc.robot.commands.DesactiveShooter;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootSmallIntake;
+import frc.robot.commands.ShooterCommand;
+import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.PneumaticsSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SmallIntakeSubsystem;
 
 import com.pathplanner.lib.auto.NamedCommands;
@@ -33,7 +40,11 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   DriveTrainSubsystem m_robotDrive;
   IntakeSubsystem m_intakeSubsystem;
+  ConveyorSubsystem m_conveyorSubsystem;
+  ShooterSubsystem m_shooterSubsystem;
   SmallIntakeSubsystem m_smallIntakeSubsystem;
+  ClimberSubsystem m_climberSubsystem;
+  PneumaticsSubsystem m_pneumaticsSubsystem;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
@@ -44,9 +55,16 @@ public class RobotContainer {
   public RobotContainer() {
     m_robotDrive = new DriveTrainSubsystem();
     m_intakeSubsystem = new IntakeSubsystem();
+    m_conveyorSubsystem = new ConveyorSubsystem();
     m_smallIntakeSubsystem = new SmallIntakeSubsystem();
-    NamedCommands.registerCommand("useIntake", new IntakeCommand(m_intakeSubsystem, true));
+    m_climberSubsystem = new ClimberSubsystem();
+    m_pneumaticsSubsystem = new PneumaticsSubsystem();
+    m_shooterSubsystem = new ShooterSubsystem();
+
+    NamedCommands.registerCommand("useIntake", new IntakeCommand(m_intakeSubsystem, m_conveyorSubsystem, true));
     NamedCommands.registerCommand("shootSmallIntake", new ShootSmallIntake(m_smallIntakeSubsystem, true));
+    NamedCommands.registerCommand("ActivateShooter", new ActivateShooter(m_shooterSubsystem, m_conveyorSubsystem));
+    NamedCommands.registerCommand("DesactivateShooter", new DesactiveShooter(m_shooterSubsystem, m_conveyorSubsystem));
     // Configure the trigger bindings
     configureBindings();
   }
@@ -73,11 +91,20 @@ public class RobotContainer {
             -m_driverController.getLeftX() * 0.7),
         m_robotDrive));
 
+    // m_pneumaticsSubsystem
+    // .setDefaultCommand(new RunCommand(() ->
+    // m_pneumaticsSubsystem.setCompressor(true), m_pneumaticsSubsystem));
+
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is
     // pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(new IntakeCommand(m_intakeSubsystem, true));
-    m_driverController.a().whileTrue(new ShootSmallIntake(m_smallIntakeSubsystem, true));
+    m_driverController.b().whileTrue(new IntakeCommand(m_intakeSubsystem, m_conveyorSubsystem, true));
+    m_driverController.a().whileTrue(new IntakeCommand(m_intakeSubsystem, m_conveyorSubsystem, false));
+    m_driverController.x().whileTrue(new ShootSmallIntake(m_smallIntakeSubsystem, true));
+    m_driverController.y().whileTrue(new ShootSmallIntake(m_smallIntakeSubsystem, false));
+    m_driverController.rightBumper().whileTrue(new ShooterCommand(m_conveyorSubsystem, m_shooterSubsystem, true));
+    m_driverController.leftBumper().whileTrue(new ShooterCommand(m_conveyorSubsystem, m_shooterSubsystem, false));
+    m_driverController.povUp().onTrue(new ClimberToogle(m_climberSubsystem));
   }
 
   /**

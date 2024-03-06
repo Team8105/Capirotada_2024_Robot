@@ -23,7 +23,7 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler 
-    SmartDashboard.putBoolean("Intake", BigRollMotor.get() > 0);
+    SmartDashboard.putBoolean("Intake", BigRollMotor.get() > 0.1 || BigRollMotor.get() < -0.1);
   }
 
   public void setPosition(boolean open) {

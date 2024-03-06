@@ -5,40 +5,37 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.SmallIntakeSubsystem;
+import frc.robot.subsystems.ConveyorSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
-public class ShootSmallIntake extends Command {
-  SmallIntakeSubsystem smallIntakeSubsystem;
-  boolean isShoot;
+public class DesactiveShooter extends Command {
+  /** Creates a new DesactiveShooter. */
+  ShooterSubsystem shooterSubsystem;
+  ConveyorSubsystem conveyorSubsystem;
 
-  /** Creates a new ShootSmallIntake. */
-  public ShootSmallIntake(SmallIntakeSubsystem smallIntakeSubsystem, boolean isShoot) {
+  public DesactiveShooter(ShooterSubsystem shooterSubsystem, ConveyorSubsystem conveyorSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.smallIntakeSubsystem = smallIntakeSubsystem;
-    addRequirements(smallIntakeSubsystem);
-    this.isShoot = isShoot;
+    this.conveyorSubsystem = conveyorSubsystem;
+    addRequirements(conveyorSubsystem);
+    this.shooterSubsystem = shooterSubsystem;
+    addRequirements(shooterSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Pequeño intake Activo!");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    this.smallIntakeSubsystem.ActivateSolenoid(true);
-    this.smallIntakeSubsystem.Shoot(isShoot);
+    conveyorSubsystem.stopMotors();
+    shooterSubsystem.stopMotors();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (isShoot)
-      this.smallIntakeSubsystem.ActivateSolenoid(false);
-    this.smallIntakeSubsystem.StopMotor();
-    System.out.println("Pequeño intake Desactivado!");
   }
 
   // Returns true when the command should end.

@@ -22,6 +22,24 @@
           "data": {
             "pathName": "recojer una nota iz"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Tirar nota"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Recojer 2 nota"
+          }
         }
       ]
     }
