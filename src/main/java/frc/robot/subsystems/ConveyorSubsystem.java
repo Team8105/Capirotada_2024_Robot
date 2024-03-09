@@ -17,6 +17,7 @@ public class ConveyorSubsystem extends SubsystemBase {
   public ConveyorSubsystem() {
     leftConveyorMotor = new WPI_VictorSPX(ConveyorConstants.KConveyorLeftMotor);
     rightConveyorMotor = new WPI_VictorSPX(ConveyorConstants.KConveyorRightMotor);
+    rightConveyorMotor.setInverted(true);
   }
 
   @Override
@@ -26,11 +27,11 @@ public class ConveyorSubsystem extends SubsystemBase {
 
   public void setPosition(boolean upConveyor) {
     if (upConveyor) {
-      leftConveyorMotor.set(ConveyorConstants.KConveyorMotorSpeed);
-      rightConveyorMotor.set(ConveyorConstants.KConveyorMotorSpeed);
-    } else {
       leftConveyorMotor.set(-ConveyorConstants.KConveyorMotorSpeed);
       rightConveyorMotor.set(-ConveyorConstants.KConveyorMotorSpeed);
+    } else {
+      leftConveyorMotor.set(ConveyorConstants.KConveyorMotorSpeed);
+      rightConveyorMotor.set(ConveyorConstants.KConveyorMotorSpeed);
     }
   }
 

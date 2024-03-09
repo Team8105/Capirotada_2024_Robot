@@ -90,7 +90,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
      * haga lo mismo que el lider
      */
     m_leftFollower.follow(m_leftLeader);
-    m_rightFollower.follow(m_leftFollower);
+    m_rightFollower.follow(m_rightLeader);
 
     /*
      * Necesitamos invertir un lado del sistema de conducciòn
@@ -98,6 +98,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
      * Esto depende de como este puesta la transmicion del robot
      * "En algunos casos el motor que se debe de invertir es el de la izquierda"
      */
+    m_rightFollower.setInverted(true);
     m_rightLeader.setInverted(true);
 
     // Indicar la distancia por pulso de los encoders
