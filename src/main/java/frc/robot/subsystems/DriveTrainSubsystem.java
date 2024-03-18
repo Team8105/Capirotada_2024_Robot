@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
@@ -56,7 +56,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
       DriveConstants.kRightEncoderPorts[1], DriveConstants.kRightEncoderReversed);
 
   // giroscopio
-  private final AHRS m_gyro = new AHRS(SPI.Port.kMXP);
+  private final AHRS m_gyro = new AHRS(Port.kUSB);
 
   // Clases de odometria para saber la posición del robot
   private final DifferentialDriveOdometry m_Odometry;

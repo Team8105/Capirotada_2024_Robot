@@ -45,10 +45,11 @@ public final class Constants {
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
         kTrackwidthMeters);
 
-    public static final int kEncoderCPR = 1024;
-    public static final double kWheelDiameterMeters = 0.15;
+    public static final int kEncoderCPR = 2048; //Señales por revolucion
+    public static final double kWheelDiameterMeters = 0.15; //Ancho de la llanta
+    //calculo para saber la distancia por señal
     public static final double kEncoderDistancePerPulse =
-        // Assumes the encoders are directly mounted on the wheel shafts
+        // Asumiendo que el encoder esta en la transmicion
         (kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR;
 
     public static final boolean kGyroReversed = true;
@@ -80,7 +81,9 @@ public final class Constants {
         kaVoltSecondsSquaredPerRadian);
 
     // Example values only -- use what's on your physical robot!
+    //Tipos de motores de cada lado del chasis
     public static final DCMotor kDriveGearbox = DCMotor.getCIM(2);
+    //Reduccion del motor
     public static final double kDriveGearing = 8;
 
     // Example value only - as above, this must be tuned for your drive!
@@ -88,44 +91,37 @@ public final class Constants {
   }
 
   public static final class ClimberConstants {
-    // climber solenoid
+    // Id del solenoide del trepador
     public static final int KClimberSolenoid = 1;
   }
 
   public static final class ShooterConstants {
-    // shooter motors
+    // Ids de los motores del shooter
     public static final int KShooterLeftMotor = 4;
-    public static final int KShooterRightMotor = 5;
+    public static final int KShooterRightMotor = 6;
 
+    //Velocidad de los motores de los shooter (del -1 al 1)
     public static final double KShooterMotorSpeed = 1.00;
   }
 
   public static final class ConveyorConstants {
-    // conveyor motors
-    public static final int KConveyorLeftMotor = 6;
-    public static final int KConveyorRightMotor = 7;
+    // Id del motor del conveyor
+    public static final int KConveyorMotor = 5;
 
-    public static final double KConveyorMotorSpeed = 0.45;
+    //Potencia del motor del conveyor (del -1 al 1)
+    public static final double KConveyorMotorSpeed = 1.00;
   }
 
   public static final class IntakeConstants {
-    // intake motors
-    public static final int KIntakeBigMotor = 8;
+    // Id de los motores 
+    public static final int KIntakeBigMotor = 10;
     public static final int KIntakeSmallMotor = 9;
 
+    //Potencia de los motores del Intake
     public static final double KBigMotorSpeed = 1.00;
     public static final double KSmallMotorSpeed = 1.00;
   }
 
-  public static final class SmallIntakeConstants {
-    // small intake motor
-    public static final int KSmallIntakeMotor = 10;
-
-    // small intake solenoid
-    public static final int KSmallIntakeSolenoid = 0;
-
-    public static final double KSmallIntakeMotorSpeed = 1.00;
-  }
 
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
@@ -135,21 +131,23 @@ public final class Constants {
     public static final double kMaxSpeedMetersPerSecond = 3;
     public static final double kMaxAccelerationMetersPerSecondSquared = 3;
 
-    // Reasonable baseline values for a RAMSETE follower in units of meters and
+      // Reasonable baseline values for a RAMSETE follower in units of meters and
     // seconds
-    public static final double kRamseteB = 3.5;
+    public static final double kRamseteB = 1.5;
     public static final double kRamseteZeta = 1.6;
-    public static final double kPXController = 1.693;
-    public static double kIXController = 0.0001;
-    public static double kDXController = 0.000007;
+    //este valor es para le velocidad lineal del autonomo
+    public static final double kPXController = 1.0576;
+    public static double kIXController = 0.00019;
+    public static double kDXController = 0.00019;
 
-    public static final double kPYawController = 2.3;
-    public static final double KIYawController = 0.0001;
-    public static double kDYawController = 0.00001;
+    //este valor es para los giros
+    public static final double kPYawController = 0.6219;
+    public static final double KIYawController = 0.00018;
+    public static double kDYawController = 0.000128;
 
-    public static final double kPTurnController = 0.15;
+    public static final double kPTurnController = 0.12;
     public static final double KITurnController = 0.000009;
-    public static double kDTurnController = 0.015;
+    public static double kDTurnController = 0.017;
   }
 
   public static final class FieldConstants {

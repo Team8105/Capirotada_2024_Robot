@@ -7,17 +7,15 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ConveyorConstants;
 
 public class ConveyorSubsystem extends SubsystemBase {
-  private final WPI_VictorSPX leftConveyorMotor;
-  private final WPI_VictorSPX rightConveyorMotor;
+  private final WPI_VictorSPX conveyorMotor;
 
   /** Creates a new ConveyorSubsystem. */
   public ConveyorSubsystem() {
-    leftConveyorMotor = new WPI_VictorSPX(ConveyorConstants.KConveyorLeftMotor);
-    rightConveyorMotor = new WPI_VictorSPX(ConveyorConstants.KConveyorRightMotor);
-    rightConveyorMotor.setInverted(true);
+    conveyorMotor =  new WPI_VictorSPX(Constants.ConveyorConstants.KConveyorMotor);
   }
 
   @Override
@@ -27,16 +25,13 @@ public class ConveyorSubsystem extends SubsystemBase {
 
   public void setPosition(boolean upConveyor) {
     if (upConveyor) {
-      leftConveyorMotor.set(-ConveyorConstants.KConveyorMotorSpeed);
-      rightConveyorMotor.set(-ConveyorConstants.KConveyorMotorSpeed);
+      conveyorMotor.set(-ConveyorConstants.KConveyorMotorSpeed);
     } else {
-      leftConveyorMotor.set(ConveyorConstants.KConveyorMotorSpeed);
-      rightConveyorMotor.set(ConveyorConstants.KConveyorMotorSpeed);
+      conveyorMotor.set(ConveyorConstants.KConveyorMotorSpeed);
     }
   }
 
   public void stopMotors() {
-    leftConveyorMotor.stopMotor();
-    rightConveyorMotor.stopMotor();
+    conveyorMotor.stopMotor();
   }
 }
