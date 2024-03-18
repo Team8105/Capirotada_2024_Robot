@@ -10,6 +10,7 @@ import frc.robot.commands.ClimberToogle;
 import frc.robot.commands.DesactiveShooter;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.SlowShooter;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -98,6 +99,7 @@ public class RobotContainer {
     m_driverController.rightBumper().whileTrue(new ShooterCommand(m_conveyorSubsystem, m_shooterSubsystem, true));
     m_driverController.leftBumper().whileTrue(new ShooterCommand(m_conveyorSubsystem, m_shooterSubsystem, false));
     m_driverController.povUp().onTrue(new ClimberToogle(m_climberSubsystem));
+    m_driverController.rightTrigger().whileTrue(new SlowShooter(m_shooterSubsystem, m_conveyorSubsystem));
   }
 
   /**
